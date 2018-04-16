@@ -1,7 +1,9 @@
 package Projekt1;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Vector;
 
 /**
  * Created by mpars on 03.04.2018.
@@ -13,6 +15,7 @@ public class Patient {
     private String pesel;
     private String plec;
     private String ubezpieczenie;
+    private Boolean badanie;
 
 
     public Patient (String imie, String nazwisko, String pesel, String plec, String ubezpieczenie) {
@@ -21,6 +24,15 @@ public class Patient {
         this.pesel = pesel;
         this.plec = plec;
         this.ubezpieczenie = ubezpieczenie;
+        this.badanie = false;
+    }
+
+    public Vector<Object> getVector(){
+        return new Vector<>(Arrays.asList(getImie()+ " " + getNazwisko(),getPlec(),getPesel(),getUbezpieczenie(),getBadanie()));
+    }
+    public Object[] getObjectArray(){
+        Object[] o = {getImie() + " " + getNazwisko(),getPlec(),getPesel(),getUbezpieczenie(),getBadanie()};
+        return o;
     }
 
     public String getImie() {
@@ -61,6 +73,13 @@ public class Patient {
 
     public void setUbezpieczenie(String ubezpieczenie) {
         this.ubezpieczenie = ubezpieczenie;
+    }
+
+    public Boolean getBadanie() {
+        return badanie;
+    }
+    public void setBadanie(boolean s){
+        this.badanie = s;
     }
 
     @Override

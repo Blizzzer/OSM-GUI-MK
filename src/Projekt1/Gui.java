@@ -64,7 +64,7 @@ public class Gui extends JFrame implements ActionListener{
 
     private String plec;
 
-    public static  List listaPacjentow = new Vector<>();
+    public static Vector<Patient> listaPacjentow = new Vector<>();
 
 
 
@@ -314,10 +314,32 @@ public class Gui extends JFrame implements ActionListener{
 
 
         //Adding table
-        String[] columns = { "Imię i nazwisko", "Płeć", "PESEL", "Ubezpieczenie", "Badanie" };
-        tablica = new JTable();
+        tablica = new JTable(){
+
+            private static final long serialVersionUID = 1L;
+
+            /*@Override
+            public Class getColumnClass(int column) {
+            return getValueAt(0, column).getClass();
+            }*/
+            @Override
+            public Class getColumnClass(int column) {
+                switch (column) {
+                    case 0:
+                        return String.class;
+                    case 1:
+                        return String.class;
+                    case 2:
+                        return String.class;
+                    case 3:
+                        return String.class;
+                    default:
+                        return Boolean.class;
+                }
+            }
+        };
         DefaultTableModel defaultTableModel = new DefaultTableModel();
-        defaultTableModel.setColumnIdentifiers(columns);
+        defaultTableModel.setColumnIdentifiers(Library.columns);
         tablica.setModel(defaultTableModel);
         tablica.setRowHeight(30);
         scrollPane = new JScrollPane(tablica, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -423,6 +445,7 @@ public class Gui extends JFrame implements ActionListener{
                     System.out.println(listaPacjentow.get(i));
                 }
                 Library.setPanelEnabled(patientP,false);
+                Library.tableUpdate(listaPacjentow,tablica);
             }
         }
         if (clicked == anulujPacjentB) {
@@ -446,7 +469,10 @@ public class Gui extends JFrame implements ActionListener{
             Library.setPanelEnabled(patientP,true);
         }
         if(clicked == usunListaB){
-
+            if(tablica.getSelectedRow() != -1) {
+                listaPacjentow.remove(tablica.getSelectedRow());
+                Library.tableUpdate(listaPacjentow, tablica);
+            }
         }
 
 
