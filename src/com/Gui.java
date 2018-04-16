@@ -1,14 +1,15 @@
-package Projekt1;
+package com;
 
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;
-import java.util.List;
 
 /**
  * Created by mpars on 29.03.2018.
@@ -104,7 +105,7 @@ public class Gui extends JFrame implements ActionListener{
         /*gbcPanels.insets = new Insets(1,1,1,1);*/
 
 
-        //Setting Projekt1.Patient Panel Constraints
+        //Setting com.Patient Panel Constraints
         gbcPanels.weightx = 0.7;
         gbcPanels.weighty = 1;
         gbcPanels.gridx = 0;
@@ -342,6 +343,25 @@ public class Gui extends JFrame implements ActionListener{
         defaultTableModel.setColumnIdentifiers(Library.columns);
         tablica.setModel(defaultTableModel);
         tablica.setRowHeight(30);
+
+        ListSelectionModel cellSelectionModel = tablica.getSelectionModel();
+        cellSelectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        cellSelectionModel.addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent e) {
+
+                int selectedRow = tablica.getSelectedRow();
+                if(selectedRow != -1){
+                    Library.setPanelEnabled(examinationP,true);
+                }else{
+                    Library.setPanelEnabled(examinationP,false);
+                }
+
+
+                //System.out.println("Selected: " + selectedRow);
+            }
+
+        });
         scrollPane = new JScrollPane(tablica, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         listaP.setLayout( new GridBagLayout() );
         gbcLista = new GridBagConstraints();
@@ -419,10 +439,10 @@ public class Gui extends JFrame implements ActionListener{
             frame.dispose();
 
         if (clicked == mezczyznaRB) {
-            plec = "Mężczyzna";
+            plec = "M";
         }
         if (clicked == kobietaRB) {
-            plec = "Kobieta";
+            plec = "K";
         }
         if (clicked == zapiszPacjentB) {
 
@@ -463,6 +483,9 @@ public class Gui extends JFrame implements ActionListener{
             stezenieZelazaTF.setText("");
         }
         if (clicked == zapiszBadanieB) {
+            listaPacjentow.get(tablica.getSelectedRow()).setBadanieObject(new Badanie(dataDC.getDate(),Long.parseLong(liczbaErytrocytowTF.getText())
+                    ,Double.parseDouble(stezenieHemoglobinyTF.getText()),Double.parseDouble(stezenieZelazaTF.getText())));
+            listaPacjentow.get(tablica.getSelectedRow()).setBadanie(true);
             System.out.println();
         }
         if(clicked == dodajListaB){
