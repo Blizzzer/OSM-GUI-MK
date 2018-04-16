@@ -8,6 +8,8 @@ import java.util.Vector;
  */
 public class Patient {
 
+    //dodany komentarz
+
     private String imie;
     private String nazwisko;
     private String pesel;
