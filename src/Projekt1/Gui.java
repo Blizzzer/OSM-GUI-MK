@@ -96,17 +96,20 @@ public class Gui extends JFrame implements ActionListener{
         menuBar.add(aplikacjaM);
         frame.setJMenuBar(menuBar);
 
+
         //Setting general Constraints for Panels
         mainPanel.setLayout(new GridBagLayout());
         gbcPanels = new GridBagConstraints();
         gbcPanels.fill = GridBagConstraints.BOTH;
         /*gbcPanels.insets = new Insets(1,1,1,1);*/
 
+
         //Setting Projekt1.Patient Panel Constraints
         gbcPanels.weightx = 0.7;
         gbcPanels.weighty = 1;
         gbcPanels.gridx = 0;
         gbcPanels.gridy = 0;
+
 
         //Setting general constraints for components in patient panel
         patientP = new JPanel();
@@ -118,6 +121,7 @@ public class Gui extends JFrame implements ActionListener{
         gbcPatient.weightx = 1;
         gbcPatient.weighty = 1;
         gbcPatient.ipady = 5;
+
 
         //Setting individual patient's components
         imieL = new JLabel("Imię:");
@@ -357,6 +361,11 @@ public class Gui extends JFrame implements ActionListener{
         listaP.add(białyNapis4, gbcLista);
 
         mainPanel.add(listaP, gbcPanels);
+
+
+        Library.setPanelEnabled(patientP,false);
+        Library.setPanelEnabled(examinationP,false);
+
 
         frame.pack();
         frame.setSize(1446,766);
