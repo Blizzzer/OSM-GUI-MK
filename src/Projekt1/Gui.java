@@ -53,7 +53,7 @@ public class Gui extends JFrame implements ActionListener{
     private JButton zapiszBadanieB;
     private JButton anulujBadanieB;
     private JButton dodajListaB;
-    private JButton anulujListaB;
+    private JButton usunListaB;
     private JDateChooser dataDC;
     private JTable tablica;
 
@@ -340,12 +340,12 @@ public class Gui extends JFrame implements ActionListener{
         gbcLista.gridwidth = 1;
         listaP.add(dodajListaB, gbcLista);
 
-        anulujListaB = new JButton("Anuluj");
+        usunListaB = new JButton("Usuń");
         gbcLista.gridx = 1;
         gbcLista.gridy = 1;
         gbcLista.weighty = 0.1;
         gbcLista.gridwidth = 1;
-        listaP.add(anulujListaB, gbcLista);
+        listaP.add(usunListaB, gbcLista);
 
         gbcLista.gridx = 2;
         gbcLista.gridwidth = 1;
@@ -389,19 +389,19 @@ public class Gui extends JFrame implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         Object clicked = e.getSource();
-
-        if (clicked == zamknijM) {
+//TODO make switch here if possible -> Object cliked.toString() ???!
+        if(clicked == zamknijM)
             frame.dispose();
-        }
-        if(clicked == mezczyznaRB) {
+
+        if (clicked == mezczyznaRB) {
             plec = "Mężczyzna";
         }
-        if(clicked == kobietaRB) {
+        if (clicked == kobietaRB) {
             plec = "Kobieta";
         }
-        if (clicked  == zapiszPacjentB) {
+        if (clicked == zapiszPacjentB) {
 
-            if(peselTF.getText().length() != 11) {
+            if (peselTF.getText().length() != 11) {
                 peselTF.setBackground(Color.RED);
             } else {
                 peselTF.setBackground(Color.WHITE);
@@ -416,12 +416,12 @@ public class Gui extends JFrame implements ActionListener{
                 System.out.println(patient.getUbezpieczenie());
 
 
-                for(int i = 0; i<listaPacjentow.size(); i++) {
+                for (int i = 0; i < listaPacjentow.size(); i++) {
                     System.out.println(listaPacjentow.get(i));
                 }
             }
         }
-        if(clicked == anulujPacjentB) {
+        if (clicked == anulujPacjentB) {
             imieTF.setText("");
             nazwiskoTF.setText("");
             peselTF.setText("");
@@ -429,14 +429,20 @@ public class Gui extends JFrame implements ActionListener{
             mezczyznaRB.setSelected(false);
             ubezpieczenieCB.setSelectedItem(null);
         }
-        if(clicked == anulujBadanieB) {
+        if (clicked == anulujBadanieB) {
             dataDC.setDate(new Date());
             liczbaErytrocytowTF.setText("");
             stezenieHemoglobinyTF.setText("");
             stezenieZelazaTF.setText("");
         }
-        if(clicked == zapiszBadanieB) {
+        if (clicked == zapiszBadanieB) {
             System.out.println();
+        }
+        if(clicked == dodajListaB){
+
+        }
+        if(clicked == usunListaB){
+
         }
 
 
