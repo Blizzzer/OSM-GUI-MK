@@ -286,6 +286,7 @@ public class Gui extends JFrame implements ActionListener{
         examinationP.add(stezenieZelazaTF, gbcExamination);
 
         zapiszBadanieB = new JButton("Zapisz");
+        zapiszBadanieB.addActionListener(this);
         gbcExamination.gridx = 0;
         gbcExamination.gridy = 4;
         examinationP.add(zapiszBadanieB, gbcExamination);
@@ -353,6 +354,12 @@ public class Gui extends JFrame implements ActionListener{
                 int selectedRow = tablica.getSelectedRow();
                 if(selectedRow != -1){
                     Library.setPanelEnabled(examinationP,true);
+                    if(listaPacjentow.get(selectedRow).getBadanie()) {
+                        dataDC.setDate(listaPacjentow.get(selectedRow).getBadanieObject().getDate());
+                        liczbaErytrocytowTF.setText(String.valueOf(listaPacjentow.get(selectedRow).getBadanieObject().getLiczbaErytrocytow()));
+                        stezenieHemoglobinyTF.setText(String.valueOf(listaPacjentow.get(selectedRow).getBadanieObject().getStezenieHemoglobiny()));
+                        stezenieZelazaTF.setText(String.valueOf(listaPacjentow.get(selectedRow).getBadanieObject().getStezenieZelaza()));
+                    }
                 }else{
                     Library.setPanelEnabled(examinationP,false);
                 }
@@ -483,9 +490,11 @@ public class Gui extends JFrame implements ActionListener{
             stezenieZelazaTF.setText("");
         }
         if (clicked == zapiszBadanieB) {
+            //TODO Check if dot or comma is puted -> catch error -> Warning Dialog
             listaPacjentow.get(tablica.getSelectedRow()).setBadanieObject(new Badanie(dataDC.getDate(),Long.parseLong(liczbaErytrocytowTF.getText())
                     ,Double.parseDouble(stezenieHemoglobinyTF.getText()),Double.parseDouble(stezenieZelazaTF.getText())));
             listaPacjentow.get(tablica.getSelectedRow()).setBadanie(true);
+            Library.tableUpdate(listaPacjentow, tablica);
             System.out.println();
         }
         if(clicked == dodajListaB){
