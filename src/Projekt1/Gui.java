@@ -333,6 +333,7 @@ public class Gui extends JFrame implements ActionListener{
         listaP.add(scrollPane, gbcLista);
 
         dodajListaB = new JButton("Dodaj");
+        dodajListaB.addActionListener(this);
         gbcLista.insets = new Insets(40,5,5,5);
         gbcLista.gridx = 0;
         gbcLista.gridy = 1;
@@ -341,6 +342,7 @@ public class Gui extends JFrame implements ActionListener{
         listaP.add(dodajListaB, gbcLista);
 
         usunListaB = new JButton("Usuń");
+        usunListaB.addActionListener(this);
         gbcLista.gridx = 1;
         gbcLista.gridy = 1;
         gbcLista.weighty = 0.1;
@@ -389,6 +391,7 @@ public class Gui extends JFrame implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         Object clicked = e.getSource();
+        //System.out.println(clicked.toString());
 //TODO make switch here if possible -> Object cliked.toString() ???!
         if(clicked == zamknijM)
             frame.dispose();
@@ -419,6 +422,7 @@ public class Gui extends JFrame implements ActionListener{
                 for (int i = 0; i < listaPacjentow.size(); i++) {
                     System.out.println(listaPacjentow.get(i));
                 }
+                Library.setPanelEnabled(patientP,false);
             }
         }
         if (clicked == anulujPacjentB) {
@@ -439,7 +443,7 @@ public class Gui extends JFrame implements ActionListener{
             System.out.println();
         }
         if(clicked == dodajListaB){
-
+            Library.setPanelEnabled(patientP,true);
         }
         if(clicked == usunListaB){
 
