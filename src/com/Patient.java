@@ -1,6 +1,7 @@
 package com;
 
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Vector;
 
 /**
@@ -8,7 +9,6 @@ import java.util.Vector;
  */
 public class Patient {
 
-    //dodany komentarz
 
     private String imie;
     private String nazwisko;
@@ -28,7 +28,7 @@ public class Patient {
     private Badanie badanieObject;
 
 
-    public Patient (String imie, String nazwisko, String pesel, String plec, String ubezpieczenie) {
+    public Patient(String imie, String nazwisko, String pesel, String plec, String ubezpieczenie) {
         this.imie = imie;
         this.nazwisko = nazwisko;
         this.pesel = pesel;
@@ -37,11 +37,12 @@ public class Patient {
         this.badanie = false;
     }
 
-    public Vector<Object> getVector(){
-        return new Vector<>(Arrays.asList(getImie()+ " " + getNazwisko(),getPlec(),getPesel(),getUbezpieczenie(),getBadanie()));
+    public Vector<Object> getVector() {
+        return new Vector<>(Arrays.asList(getImie() + " " + getNazwisko(), getPlec(), getPesel(), getUbezpieczenie(), getBadanie()));
     }
-    public Object[] getObjectArray(){
-        Object[] o = {getImie() + " " + getNazwisko(),getPlec(),getPesel(),getUbezpieczenie(),getBadanie()};
+
+    public Object[] getObjectArray() {
+        Object[] o = {getImie() + " " + getNazwisko(), getPlec(), getPesel(), getUbezpieczenie(), getBadanie()};
         return o;
     }
 
@@ -88,7 +89,8 @@ public class Patient {
     public Boolean getBadanie() {
         return badanie;
     }
-    public void setBadanie(boolean s){
+
+    public void setBadanie(boolean s) {
         this.badanie = s;
     }
 
@@ -97,4 +99,13 @@ public class Patient {
         return super.toString();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        Patient patient = (Patient) o;
+        return Objects.equals(pesel, patient.pesel);
+    }
 }

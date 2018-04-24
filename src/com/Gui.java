@@ -9,12 +9,13 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.*;
+import java.util.Date;
+import java.util.Vector;
 
 /**
  * Created by mpars on 29.03.2018.
  */
-public class Gui extends JFrame implements ActionListener{
+public class Gui extends JFrame implements ActionListener {
 
     //Declarations
     private JFrame frame;
@@ -35,7 +36,10 @@ public class Gui extends JFrame implements ActionListener{
     private JLabel liczbaErytrcytowL;
     private JLabel stezenieHemoglobinyL;
     private JLabel stezenieZelazaL;
-    private JLabel białyNapis;
+    private JLabel erytrocytyNormaL;
+    private JLabel hemoglobinaNormaL;
+    private JLabel zelazoNormaL;
+    private JLabel białyNapis1;
     private JLabel białyNapis2;
     private JLabel białyNapis3;
     private JLabel białyNapis4;
@@ -68,8 +72,7 @@ public class Gui extends JFrame implements ActionListener{
     public static Vector<Patient> listaPacjentow = new Vector<>();
 
 
-
-    public Gui () {
+    public Gui() {
 
         //General definitions - frame and main panel
         mainPanel = new JPanel();
@@ -118,7 +121,7 @@ public class Gui extends JFrame implements ActionListener{
         patientP.setLayout(new GridBagLayout());
         gbcPatient = new GridBagConstraints();
         gbcPatient.fill = GridBagConstraints.BOTH;
-        gbcPatient.insets = new Insets(10,10,10,5);
+        gbcPatient.insets = new Insets(10, 10, 10, 5);
         gbcPatient.weightx = 1;
         gbcPatient.weighty = 1;
         gbcPatient.ipady = 5;
@@ -140,13 +143,11 @@ public class Gui extends JFrame implements ActionListener{
 
 
         nazwiskoL = new JLabel("Nazwisko:");
-        nazwiskoL.setFont(new Font("Consolas", 0,15));
         gbcPatient.gridx = 0;
         gbcPatient.gridy = 1;
         patientP.add(nazwiskoL, gbcPatient);
 
         nazwiskoTF = new JTextField();
-        nazwiskoTF.setFont(new Font("Consolas",0,15));
         gbcPatient.gridx = 2;
         gbcPatient.gridy = 1;
         gbcPatient.gridwidth = 2;
@@ -194,7 +195,7 @@ public class Gui extends JFrame implements ActionListener{
         gbcPatient.gridwidth = 2;
         patientP.add(ubezpieczenieL, gbcPatient);
 
-        String[] ubezpieczeniaS = { "NFZ", "Prywatne", "Brak" };
+        String[] ubezpieczeniaS = {"NFZ", "Prywatne", "Brak"};
         ubezpieczenieCB = new JComboBox(ubezpieczeniaS);
         ubezpieczenieCB.setSelectedItem(null);
         gbcPatient.gridx = 2;
@@ -233,7 +234,7 @@ public class Gui extends JFrame implements ActionListener{
         examinationP.setLayout(new GridBagLayout());
         gbcExamination = new GridBagConstraints();
         gbcExamination.fill = GridBagConstraints.BOTH;
-        gbcExamination.insets = new Insets(10,10,10,10);
+        gbcExamination.insets = new Insets(10, 10, 10, 10);
         gbcExamination.weightx = 1;
         gbcExamination.weighty = 1;
         gbcExamination.ipady = 5;
@@ -261,6 +262,11 @@ public class Gui extends JFrame implements ActionListener{
         gbcExamination.gridwidth = 1;
         examinationP.add(liczbaErytrocytowTF, gbcExamination);
 
+        erytrocytyNormaL = new JLabel("1/ul");
+        gbcExamination.gridx = 3;
+        gbcExamination.gridy = 1;
+        examinationP.add(erytrocytyNormaL, gbcExamination);
+
         stezenieHemoglobinyL = new JLabel("Stężenie hemoglobiny");
         gbcExamination.gridx = 0;
         gbcExamination.gridy = 2;
@@ -272,6 +278,11 @@ public class Gui extends JFrame implements ActionListener{
         gbcExamination.gridy = 2;
         gbcExamination.gridwidth = 1;
         examinationP.add(stezenieHemoglobinyTF, gbcExamination);
+
+        hemoglobinaNormaL = new JLabel("mmol/l");
+        gbcExamination.gridx = 3;
+        gbcExamination.gridy = 2;
+        examinationP.add(hemoglobinaNormaL, gbcExamination);
 
         stezenieZelazaL = new JLabel("Stężenie żelaza");
         gbcExamination.gridx = 0;
@@ -285,6 +296,11 @@ public class Gui extends JFrame implements ActionListener{
         gbcExamination.gridwidth = 1;
         examinationP.add(stezenieZelazaTF, gbcExamination);
 
+        zelazoNormaL = new JLabel("ug/dl");
+        gbcExamination.gridx = 3;
+        gbcExamination.gridy = 3;
+        examinationP.add(zelazoNormaL, gbcExamination);
+
         zapiszBadanieB = new JButton("Zapisz");
         zapiszBadanieB.addActionListener(this);
         gbcExamination.gridx = 0;
@@ -297,14 +313,6 @@ public class Gui extends JFrame implements ActionListener{
         gbcExamination.gridy = 4;
         examinationP.add(anulujBadanieB, gbcExamination);
 
-        białyNapis = new JLabel("          ");
-        gbcExamination.gridx = 3;
-        gbcExamination.gridy = 3;
-        gbcExamination.gridwidth = 1;
-        białyNapis.setForeground(Color.GRAY);
-        examinationP.add(białyNapis, gbcExamination);
-
-
         mainPanel.add(examinationP, gbcPanels);
 
         listaP = new JPanel();
@@ -316,7 +324,7 @@ public class Gui extends JFrame implements ActionListener{
 
 
         //Adding table
-        tablica = new JTable(){
+        tablica = new JTable() {
 
             private static final long serialVersionUID = 1L;
 
@@ -340,10 +348,13 @@ public class Gui extends JFrame implements ActionListener{
                 }
             }
         };
+
         DefaultTableModel defaultTableModel = new DefaultTableModel();
         defaultTableModel.setColumnIdentifiers(Library.columns);
         tablica.setModel(defaultTableModel);
         tablica.setRowHeight(30);
+        //Library.setWidth(tablica);
+
 
         ListSelectionModel cellSelectionModel = tablica.getSelectionModel();
         cellSelectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -352,28 +363,35 @@ public class Gui extends JFrame implements ActionListener{
             public void valueChanged(ListSelectionEvent e) {
 
                 int selectedRow = tablica.getSelectedRow();
-                if(selectedRow != -1){
-                    Library.setPanelEnabled(examinationP,true);
-                    if(listaPacjentow.get(selectedRow).getBadanie()) {
+                if (selectedRow != -1) {
+                    Library.setPanelEnabled(examinationP, true);
+                    if (listaPacjentow.get(selectedRow).getBadanie()) {
                         dataDC.setDate(listaPacjentow.get(selectedRow).getBadanieObject().getDate());
                         liczbaErytrocytowTF.setText(String.valueOf(listaPacjentow.get(selectedRow).getBadanieObject().getLiczbaErytrocytow()));
                         stezenieHemoglobinyTF.setText(String.valueOf(listaPacjentow.get(selectedRow).getBadanieObject().getStezenieHemoglobiny()));
                         stezenieZelazaTF.setText(String.valueOf(listaPacjentow.get(selectedRow).getBadanieObject().getStezenieZelaza()));
+                    } else {
+                        dataDC.setDate(new Date());
+                        liczbaErytrocytowTF.setText("");
+                        stezenieHemoglobinyTF.setText("");
+                        stezenieZelazaTF.setText("");
                     }
-                }else{
-                    Library.setPanelEnabled(examinationP,false);
+                } else {
+                    Library.setPanelEnabled(examinationP, false);
                 }
 
+                dodajListaB.setEnabled(false);
 
                 //System.out.println("Selected: " + selectedRow);
             }
 
         });
+
         scrollPane = new JScrollPane(tablica, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        listaP.setLayout( new GridBagLayout() );
+        listaP.setLayout(new GridBagLayout());
         gbcLista = new GridBagConstraints();
         gbcLista.fill = GridBagConstraints.BOTH;
-        gbcLista.insets = new Insets(5,5,5,5);
+        gbcLista.insets = new Insets(5, 5, 5, 5);
         gbcLista.gridx = 0;
         gbcLista.gridy = 0;
         gbcLista.weightx = 1;
@@ -383,7 +401,7 @@ public class Gui extends JFrame implements ActionListener{
 
         dodajListaB = new JButton("Dodaj");
         dodajListaB.addActionListener(this);
-        gbcLista.insets = new Insets(40,5,5,5);
+        gbcLista.insets = new Insets(40, 5, 5, 5);
         gbcLista.gridx = 0;
         gbcLista.gridy = 1;
         gbcLista.weighty = 0.1;
@@ -400,30 +418,33 @@ public class Gui extends JFrame implements ActionListener{
 
         gbcLista.gridx = 2;
         gbcLista.gridwidth = 1;
-        listaP.add(białyNapis, gbcLista);
+        białyNapis1 = new JLabel("        ");
+        listaP.add(białyNapis1, gbcLista);
         białyNapis2 = new JLabel("        ");
         gbcLista.gridx = 3;
         listaP.add(białyNapis2, gbcLista);
         białyNapis3 = new JLabel("        ");
         gbcLista.gridx = 4;
         listaP.add(białyNapis3, gbcLista);
-        białyNapis4 = new JLabel("         ");
+        białyNapis4 = new JLabel("        ");
         gbcLista.gridx = 5;
         listaP.add(białyNapis4, gbcLista);
 
         mainPanel.add(listaP, gbcPanels);
 
 
-        Library.setPanelEnabled(patientP,false);
-        Library.setPanelEnabled(examinationP,false);
+        Library.setPanelEnabled(patientP, false);
+        Library.setPanelEnabled(examinationP, false);
 
 
         frame.pack();
-        frame.setSize(1446,766);
+        frame.setSize(1446, 766);
+        frame.setMinimumSize(new Dimension());
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setMinimumSize(new Dimension(200,200));
+        frame.setMinimumSize(new Dimension(1350, 725));
+
     }
 
 
@@ -441,8 +462,8 @@ public class Gui extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         Object clicked = e.getSource();
         //System.out.println(clicked.toString());
-//TODO make switch here if possible -> Object cliked.toString() ???!
-        if(clicked == zamknijM)
+        //TODO make switch here if possible -> Object cliked.toString() ???!
+        if (clicked == zamknijM)
             frame.dispose();
 
         if (clicked == mezczyznaRB) {
@@ -453,26 +474,38 @@ public class Gui extends JFrame implements ActionListener{
         }
         if (clicked == zapiszPacjentB) {
 
-            if (peselTF.getText().length() != 11) {
-                peselTF.setBackground(Color.RED);
+            if (!(peselTF.getText().length() == 11 && org.apache.commons.lang3.StringUtils.isNumeric(peselTF.getText()))) {
+                Library.messegeWarning("Pesel powinien mieć 11 cyfr");
+            } else if (peselTF.getText().isEmpty()) {
+                Library.messegeWarning("Pusta wartość pola tekstowego pesel");
+            } else if (imieTF.getText().isEmpty()) {
+                Library.messegeWarning("Pusta wartość pola tekstowego imię");
+            } else if (nazwiskoTF.getText().isEmpty()) {
+                Library.messegeWarning("Pusta wartość pola tekstowego nazwisko");
+            } else if (plec == null) {
+                Library.messegeWarning("Nie wybrano płci pacjenta");
+            } else if (ubezpieczenieCB.getSelectedItem() == null) {
+                Library.messegeWarning("Nie wybrano ubezpieczenia");
             } else {
-                peselTF.setBackground(Color.WHITE);
                 Patient patient = new Patient(imieTF.getText(), nazwiskoTF.getText(),
                         peselTF.getText(), plec, String.valueOf(ubezpieczenieCB.getSelectedItem()));
-                listaPacjentow.add(patient);
-                System.out.println(listaPacjentow.size());
-                System.out.println(patient.getImie());
-                System.out.println(patient.getNazwisko());
-                System.out.println(patient.getPesel());
-                System.out.println(patient.getPlec());
-                System.out.println(patient.getUbezpieczenie());
 
-
-                for (int i = 0; i < listaPacjentow.size(); i++) {
-                    System.out.println(listaPacjentow.get(i));
+                if (!Library.contains(listaPacjentow, patient)) {
+                    listaPacjentow.add(patient);
+                    imieTF.setText("");
+                    nazwiskoTF.setText("");
+                    peselTF.setText("");
+                    kobietaRB.setSelected(false);
+                    mezczyznaRB.setSelected(false);
+                    ubezpieczenieCB.setSelectedItem(null);
                 }
-                Library.setPanelEnabled(patientP,false);
-                Library.tableUpdate(listaPacjentow,tablica);
+                System.out.println(tablica.getWidth()); //to do wyznaczania szerokości wierszy
+
+                Library.setPanelEnabled(patientP, false);
+                Library.tableUpdate(listaPacjentow, tablica);
+                //TODO: Clear TextFields after dropping the patient to the Table
+
+
             }
         }
         if (clicked == anulujPacjentB) {
@@ -491,19 +524,82 @@ public class Gui extends JFrame implements ActionListener{
         }
         if (clicked == zapiszBadanieB) {
             //TODO Check if dot or comma is puted -> catch error -> Warning Dialog
-            listaPacjentow.get(tablica.getSelectedRow()).setBadanieObject(new Badanie(dataDC.getDate(),Long.parseLong(liczbaErytrocytowTF.getText())
-                    ,Double.parseDouble(stezenieHemoglobinyTF.getText()),Double.parseDouble(stezenieZelazaTF.getText())));
-            listaPacjentow.get(tablica.getSelectedRow()).setBadanie(true);
-            Library.tableUpdate(listaPacjentow, tablica);
-            System.out.println();
+
+            // isNumeric() does not recognize double as a number so that i used remove method
+            if (liczbaErytrocytowTF.getText().isEmpty() ||
+                    !org.apache.commons.lang3.StringUtils.isNumeric(
+                            org.apache.commons.lang3.StringUtils.remove(liczbaErytrocytowTF.getText(), ".")))
+                Library.messegeWarning("Błędnie wypełniono pole tekstowe liczba Erytrocyów");
+            else if (liczbaErytrocytowTF.getText().isEmpty() ||
+                    !org.apache.commons.lang3.StringUtils.isNumeric(
+                            org.apache.commons.lang3.StringUtils.remove(stezenieHemoglobinyTF.getText(), ".")))
+                Library.messegeWarning("Błędnie wypełniono pole tekstowe Stężenie Hemoglobiny");
+            else if (liczbaErytrocytowTF.getText().isEmpty() ||
+                    !org.apache.commons.lang3.StringUtils.isNumeric(
+                            org.apache.commons.lang3.StringUtils.remove(stezenieZelazaTF.getText(), ".")))
+                Library.messegeWarning("Błędnie wypełniono pole tekstowe Stężenie żelaza");
+            else {
+
+                boolean warningFlag = false;
+                if (plec.equals("K")) {
+                    if (Long.parseLong(liczbaErytrocytowTF.getText()) < 3900000 || Long.parseLong(liczbaErytrocytowTF.getText()) > 5600000) {
+                        liczbaErytrocytowTF.setBackground(Color.YELLOW);
+                        warningFlag = true;
+                    }
+                    if (Double.parseDouble(stezenieHemoglobinyTF.getText()) < 6.8 || Double.parseDouble(stezenieHemoglobinyTF.getText()) > 9.3) {
+                        stezenieHemoglobinyTF.setBackground(Color.YELLOW);
+                        warningFlag = true;
+                    }
+                    if (Double.parseDouble(stezenieZelazaTF.getText()) < 50 || Double.parseDouble(stezenieZelazaTF.getText()) > 175) {
+                        liczbaErytrocytowTF.setBackground(Color.YELLOW);
+                        warningFlag = true;
+                    }
+                } else {
+                    if (Long.parseLong(liczbaErytrocytowTF.getText()) < 4500000 || Long.parseLong(liczbaErytrocytowTF.getText()) > 6500000) {
+                        liczbaErytrocytowTF.setBackground(Color.YELLOW);
+                        warningFlag = true;
+                    }
+                    if (Double.parseDouble(stezenieHemoglobinyTF.getText()) < 7.4 || Double.parseDouble(stezenieHemoglobinyTF.getText()) > 10.5) {
+                        stezenieHemoglobinyTF.setBackground(Color.YELLOW);
+                        warningFlag = true;
+                    }
+                    if (Double.parseDouble(stezenieZelazaTF.getText()) < 50 || Double.parseDouble(stezenieZelazaTF.getText()) > 175) {
+                        stezenieZelazaTF.setBackground(Color.YELLOW);
+                        warningFlag = true;
+                    }
+                }
+                if (warningFlag == true) {
+                    Library.outOfBoundsWarning();
+                    liczbaErytrocytowTF.setBackground(Color.WHITE);
+                    stezenieHemoglobinyTF.setBackground(Color.WHITE);
+                    stezenieZelazaTF.setBackground(Color.WHITE);
+                }
+                listaPacjentow.get(tablica.getSelectedRow()).setBadanieObject(new Badanie(dataDC.getDate(), Long.parseLong(liczbaErytrocytowTF.getText())
+                        , Double.parseDouble(stezenieHemoglobinyTF.getText()), Double.parseDouble(stezenieZelazaTF.getText())));
+                listaPacjentow.get(tablica.getSelectedRow()).setBadanie(true);
+                Library.tableUpdate(listaPacjentow, tablica);
+                System.out.println();
+                dataDC.setDate(new Date());
+                liczbaErytrocytowTF.setText("");
+                stezenieHemoglobinyTF.setText("");
+                stezenieZelazaTF.setText("");
+                dodajListaB.setEnabled(true);
+                usunListaB.setEnabled(true);
+            }
         }
-        if(clicked == dodajListaB){
-            Library.setPanelEnabled(patientP,true);
+        if (clicked == dodajListaB) {
+            Library.setPanelEnabled(patientP, true);
         }
-        if(clicked == usunListaB){
-            if(tablica.getSelectedRow() != -1) {
+        if (clicked == usunListaB) {
+            if (tablica.getSelectedRow() != -1) {
                 listaPacjentow.remove(tablica.getSelectedRow());
                 Library.tableUpdate(listaPacjentow, tablica);
+                dodajListaB.setEnabled(true);
+                usunListaB.setEnabled(true);
+                dataDC.setDate(new Date());
+                liczbaErytrocytowTF.setText("");
+                stezenieHemoglobinyTF.setText("");
+                stezenieZelazaTF.setText("");
             }
         }
 
