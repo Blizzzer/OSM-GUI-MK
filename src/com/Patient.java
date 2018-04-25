@@ -4,11 +4,8 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.Vector;
 
-/**
- * Created by mpars on 03.04.2018.
- */
-public class Patient {
 
+public class Patient {
 
     private String imie;
     private String nazwisko;
@@ -50,40 +47,20 @@ public class Patient {
         return imie;
     }
 
-    public void setImie(String imie) {
-        this.imie = imie;
-    }
-
     public String getNazwisko() {
         return nazwisko;
-    }
-
-    public void setNazwisko(String nazwisko) {
-        this.nazwisko = nazwisko;
     }
 
     public String getPesel() {
         return pesel;
     }
 
-    public void setPesel(String pesel) {
-        this.pesel = pesel;
-    }
-
     public String getPlec() {
         return plec;
     }
 
-    public void setPlec(String plec) {
-        this.plec = plec;
-    }
-
     public String getUbezpieczenie() {
         return ubezpieczenie;
-    }
-
-    public void setUbezpieczenie(String ubezpieczenie) {
-        this.ubezpieczenie = ubezpieczenie;
     }
 
     public Boolean getBadanie() {
@@ -94,10 +71,6 @@ public class Patient {
         this.badanie = s;
     }
 
-    @Override
-    public String toString() {
-        return super.toString();
-    }
 
     @Override
     public boolean equals(Object o) {

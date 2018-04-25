@@ -18,7 +18,6 @@ public final class Library {
             if (components[i].getClass().getName() == "javax.swing.JPanel") {
                 setPanelEnabled((JPanel) components[i], isEnabled);
             }
-
             components[i].setEnabled(isEnabled);
         }
     }
@@ -42,16 +41,6 @@ public final class Library {
                 return false;
             }
         };
-    }
-
-    public static void setWidth(JTable tablica) {
-        int width = tablica.getWidth();
-        tablica.getColumnModel().getColumn(0).setWidth(width / 4);
-        tablica.getColumnModel().getColumn(1).setWidth(width / 8);
-        tablica.getColumnModel().getColumn(2).setWidth(width / 4);
-        tablica.getColumnModel().getColumn(3).setWidth(width / 4);
-        tablica.getColumnModel().getColumn(4).setWidth(width / 8);
-        tablica.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
     }
 
 

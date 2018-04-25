@@ -12,9 +12,7 @@ import java.awt.event.ActionListener;
 import java.util.Date;
 import java.util.Vector;
 
-/**
- * Created by mpars on 29.03.2018.
- */
+
 public class Gui extends JFrame implements ActionListener {
 
     //Declarations
@@ -98,14 +96,12 @@ public class Gui extends JFrame implements ActionListener {
         zamknijM.addActionListener(this);
         aplikacjaM.add(zamknijM);
         menuBar.add(aplikacjaM);
-        frame.setJMenuBar(menuBar);
 
 
         //Setting general Constraints for Panels
         mainPanel.setLayout(new GridBagLayout());
         gbcPanels = new GridBagConstraints();
         gbcPanels.fill = GridBagConstraints.BOTH;
-        /*gbcPanels.insets = new Insets(1,1,1,1);*/
 
 
         //Setting com.Patient Panel Constraints
@@ -353,8 +349,6 @@ public class Gui extends JFrame implements ActionListener {
         defaultTableModel.setColumnIdentifiers(Library.columns);
         tablica.setModel(defaultTableModel);
         tablica.setRowHeight(30);
-        //Library.setWidth(tablica);
-
 
         ListSelectionModel cellSelectionModel = tablica.getSelectionModel();
         cellSelectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -382,7 +376,6 @@ public class Gui extends JFrame implements ActionListener {
 
                 dodajListaB.setEnabled(false);
 
-                //System.out.println("Selected: " + selectedRow);
             }
 
         });
@@ -438,8 +431,8 @@ public class Gui extends JFrame implements ActionListener {
 
 
         frame.pack();
+        frame.setJMenuBar(menuBar);
         frame.setSize(1446, 766);
-        frame.setMinimumSize(new Dimension());
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -461,8 +454,6 @@ public class Gui extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         Object clicked = e.getSource();
-        //System.out.println(clicked.toString());
-        //TODO make switch here if possible -> Object cliked.toString() ???!
         if (clicked == zamknijM)
             frame.dispose();
 
@@ -499,11 +490,9 @@ public class Gui extends JFrame implements ActionListener {
                     mezczyznaRB.setSelected(false);
                     ubezpieczenieCB.setSelectedItem(null);
                 }
-                System.out.println(tablica.getWidth()); //to do wyznaczania szerokości wierszy
 
                 Library.setPanelEnabled(patientP, false);
                 Library.tableUpdate(listaPacjentow, tablica);
-                //TODO: Clear TextFields after dropping the patient to the Table
 
 
             }
@@ -523,9 +512,8 @@ public class Gui extends JFrame implements ActionListener {
             stezenieZelazaTF.setText("");
         }
         if (clicked == zapiszBadanieB) {
-            //TODO Check if dot or comma is puted -> catch error -> Warning Dialog
 
-            // isNumeric() does not recognize double as a number so that i used remove method
+            // isNumeric() does not recognize double as a number so that i used remove() method
             if (liczbaErytrocytowTF.getText().isEmpty() ||
                     !org.apache.commons.lang3.StringUtils.isNumeric(
                             org.apache.commons.lang3.StringUtils.remove(liczbaErytrocytowTF.getText(), ".")))
@@ -602,7 +590,5 @@ public class Gui extends JFrame implements ActionListener {
                 stezenieZelazaTF.setText("");
             }
         }
-
-
     }
 }

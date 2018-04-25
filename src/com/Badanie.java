@@ -17,36 +17,18 @@ public class Badanie {
 
     public Date getDate() {
         return date;
-
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
     }
 
     public long getLiczbaErytrocytow() {
         return liczbaErytrocytow;
     }
 
-    public void setLiczbaErytrocytow(long liczbaErytrocytow) {
-        this.liczbaErytrocytow = liczbaErytrocytow;
-    }
-
     public double getStezenieHemoglobiny() {
         return stezenieHemoglobiny;
-    }
-
-    public void setStezenieHemoglobiny(double stezenieHemoglobiny) {
-        this.stezenieHemoglobiny = stezenieHemoglobiny;
     }
 
     public double getStezenieZelaza() {
         return stezenieZelaza;
     }
-
-    public void setStezenieZelaza(double stezenieZelaza) {
-        this.stezenieZelaza = stezenieZelaza;
-    }
-
 
 }
